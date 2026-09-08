@@ -3,9 +3,13 @@ interface NumberWithLogs {
   logs: string[];
 }
 
-const square = (x: number): NumberWithLogs => {
-  const result = x * x;
-  return { result, logs: [`Sqaured ${x} to get ${result}`] };
+const wrapNumberWithLogs = (x: number): NumberWithLogs => {
+  return { result: x, logs: [] };
+};
+
+const square = (x: NumberWithLogs): NumberWithLogs => {
+  const result = x.result * x.result;
+  return { result, logs: x.logs.concat([`Sqaured ${x.result} to get ${result}`]) };
 };
 
 const addOne = (x: NumberWithLogs): NumberWithLogs => {
@@ -13,4 +17,5 @@ const addOne = (x: NumberWithLogs): NumberWithLogs => {
   return { result, logs: x.logs.concat([`Added 1 to get ${result}`]) };
 };
 
-console.log(addOne(square(3)));
+console.log(addOne(square(wrapNumberWithLogs(3))));
+console.log(square(square(wrapNumberWithLogs(3))));
